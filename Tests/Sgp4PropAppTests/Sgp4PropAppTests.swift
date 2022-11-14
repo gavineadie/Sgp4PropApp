@@ -1,11 +1,19 @@
 import XCTest
 @testable import Sgp4PropApp
+@testable import swift
 
 final class Sgp4PropAppTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(Sgp4PropApp().text, "Hello, World!")
+    override func setUp() {
+        let globalHandle = dllMainInit()
+        guard envInit(globalHandle) == 0 else { fatalError("envInit load failure") }
+        guard timeFuncInit(globalHandle) == 0 else { fatalError("timeFuncInit load failure") }
+        guard astroFuncInit(globalHandle) == 0 else { fatalError("astroFuncInit load failure") }
+        guard tleInit(globalHandle) == 0 else { fatalError("tleInit load failure") }
+        guard sgp4Init(globalHandle) == 0 else { fatalError("sgp4Init load failure") }
+    }
+    
+    func test() {
+        let startTime = DTGToUTC("00051.47568104")
+        print(startTime)
     }
 }
