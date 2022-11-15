@@ -31,9 +31,8 @@ public struct Sgp4PropApp {
 
         print(getInitDllNames())
 
-        let satKey = tleAddSatFrLines("1 90021U RELEAS14 00051.47568104  .00000184 +00000+0 +00000-4 0 0814",
-                                      "2 90021   0.0222 182.4923 0000720  45.6036 131.8822  1.00271328 1199");
-        print(satKey)
+        let satKey = tleAddSatFrLines("1 90021U RELEAS14 00051.47568104 +.00000184 +00000+0 +00000-4 0 0814",
+                                      "2 90021   0.0222 182.4923 0000720  45.6036 131.8822  1.00271328 1199")
 
         let sgpError = sgp4InitSat(satKey)
         if sgpError == 0 {
@@ -49,12 +48,12 @@ public struct Sgp4PropApp {
 //
 // propagate for 10 days from start time with 0.5 day (720 minute) step size
 //
+        var mse = 0.0
+        var pos = Real1D()
+        var vel = Real1D()
+        var llh = Real1D()
+        
         for time in stride(from: startTime, to: endTime, by: 0.5) {
-
-            var mse = 0.0
-            var pos = Real1D()
-            var vel = Real1D()
-            var llh = Real1D()
 
             let propError = sgp4PropDs50UTC(satKey, time, &mse, &pos, &vel, &llh)
 
