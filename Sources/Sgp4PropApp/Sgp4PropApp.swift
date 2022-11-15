@@ -65,7 +65,7 @@ public struct Sgp4PropApp {
             print("pos.x = \(pos.x), pos.y = \(pos.y), pos.z = \(pos.z)")
         }
 
-        let code = OpenLogFile(fileName: "../TestMessageFile")
+        let code = OpenLogFile(fileName: "/Users/gavin/Development/Sgp4Prop/Sgp4/TestMessageFile")
         LogMessage(message: "Help!  There are marmots in the capsule .. \(code)")
         CloseLogFile()
 
