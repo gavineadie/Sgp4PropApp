@@ -42,7 +42,7 @@ public struct Sgp4PropApp {
         }
 
         let startTime = DTGToUTC("00051.47568104")
-        print("startTime = \(startTime) [C version: 18313.475681039999]")
+        print("startTime = \(startTime)")
         let endTime = startTime + 10
 
 //
@@ -55,14 +55,22 @@ public struct Sgp4PropApp {
         
         for time in stride(from: startTime, to: endTime, by: 0.5) {
 
-            let propError = sgp4PropDs50UTC(satKey, time, &mse, &pos, &vel, &llh)
+            let propError1 = sgp4PropDs50UTC(satKey, time, &mse, &pos, &vel, &llh)
 
-            guard propError == 0 else {
+            guard propError1 == 0 else {
                 print("## \(GetLastErrMsg()) (after Sgp4PropDs50UTC)")
                 fatalError("sgp4PropDs50UTC")
             }
 
-            print("pos.x = \(pos.x), pos.y = \(pos.y), pos.z = \(pos.z)")
+            print(String(format: "time = %4.2f days: %+6.2f°, %+5.2f°, %9.2f Km",
+                         time*12.0, llh.x, llh.y, llh.z))
+            
+            let _ = sgp4PropDs50UtcPosVel(satKey, time, &pos, &vel)
+
+            let _ = sgp4PropDs50UtcPos(satKey, time, &pos)
+
+            let _ = sgp4PropDs50UtcLLH(satKey, time, &llh)
+
         }
 
         let code = OpenLogFile(fileName: "/Users/gavin/Development/Sgp4Prop/Sgp4/TestMessageFile")
