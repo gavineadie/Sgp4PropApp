@@ -15,7 +15,7 @@ final class Sgp4PropAppTests: XCTestCase {
     }
     
     func testDTGToUTC() {
-        let startTime = DTGToUTC("00051.47568104")
+        let startTime = dtgToUTC("00051.47568104")
         print(startTime)
     }
     

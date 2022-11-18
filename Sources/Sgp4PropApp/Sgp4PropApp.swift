@@ -31,46 +31,42 @@ public struct Sgp4PropApp {
 
         print(getInitDllNames())
 
-        let satKey = tleAddSatFrLines("1 90021U RELEAS14 00051.47568104 +.00000184 +00000+0 +00000-4 0 0814",
-                                      "2 90021   0.0222 182.4923 0000720  45.6036 131.8822  1.00271328 1199")
+        let satKey = tleAddSatFrLines("1 25544U 98067A   22321.90676521  .00009613  00000+0  17572-3 0  9999",
+                                      "2 25544  51.6438 295.0836 0006994  86.3588   5.1970 15.50066990369021")  // ISS 2022-11-17
+
+        let startTime = dtgToUTC("22321.90676521")
+        print("startTime = \(startTime)")
+
+        print("UTCToDTG20: \(utcToDTG20(startTime))")
+        print("UTCToDTG19: \(utcToDTG19(startTime))")
+        print("UTCToDTG17: \(utcToDTG17(startTime))")
+        print("UTCToDTG15: \(utcToDTG15(startTime))")
 
         let sgpError = sgp4InitSat(satKey)
         if sgpError == 0 {
             print("## \(GetLastErrMsg()) (after sgp4InitSat) <<<-- MISTAKE")   // shouldn't happen ..
         } else {
-            print("## \(GetLastErrMsg()) (after sgp4InitSat)")   // shouldn't happen ..
+            fatalError("## \(GetLastErrMsg()) (after sgp4InitSat)")
         }
 
-        let startTime = DTGToUTC("00051.47568104")
-        print("startTime = \(startTime)")
-        let endTime = startTime + 10
+//
+// propagate for 4 hours from start time with 6 minute step size
+//
 
-//
-// propagate for 10 days from start time with 0.5 day (720 minute) step size
-//
-        var mse = 0.0
-        var pos = Real1D()
-        var vel = Real1D()
         var llh = Real1D()
-        
-        for time in stride(from: startTime, to: endTime, by: 0.5) {
 
-            let propError1 = sgp4PropDs50UTC(satKey, time, &mse, &pos, &vel, &llh)
+        for minutes in stride(from: 0.0, to: 240.0, by: 6) {
+            let dayΔ = minutes / 1440.0
 
-            guard propError1 == 0 else {
+            let propError = sgp4PropDs50UtcLLH(satKey, startTime+dayΔ, &llh)
+
+            guard propError == 0 else {
                 print("## \(GetLastErrMsg()) (after Sgp4PropDs50UTC)")
                 fatalError("sgp4PropDs50UTC")
             }
 
-            print(String(format: "time = %4.2f days: %+6.2f°, %+5.2f°, %9.2f Km",
-                         time*12.0, llh.x, llh.y, llh.z))
-            
-            let _ = sgp4PropDs50UtcPosVel(satKey, time, &pos, &vel)
-
-            let _ = sgp4PropDs50UtcPos(satKey, time, &pos)
-
-            let _ = sgp4PropDs50UtcLLH(satKey, time, &llh)
-
+            print(String(format: "Δt = %6.2f mins: %+9.2f°, %+9.2f°, %+9.2f Km",
+                         minutes, llh.x, llh.y, llh.z))
         }
 
         let code = OpenLogFile(fileName: "/Users/gavin/Development/Sgp4Prop/Sgp4/TestMessageFile")
@@ -78,5 +74,6 @@ public struct Sgp4PropApp {
         CloseLogFile()
 
         print("Sgp4PropApp done ..")
+
     }
 }
