@@ -44,16 +44,16 @@ public struct Sgp4PropApp {
 
         let sgpError = sgp4InitSat(satKey)
         if sgpError == 0 {
-            print("## \(GetLastErrMsg()) (after sgp4InitSat) <<<-- MISTAKE")   // shouldn't happen ..
+            print("## \(getLastErrMsg()) (after sgp4InitSat) <<<-- MISTAKE")   // shouldn't happen ..
         } else {
-            fatalError("## \(GetLastErrMsg()) (after sgp4InitSat)")
+            fatalError("## \(getLastErrMsg()) (after sgp4InitSat)")
         }
 
 //
 // propagate for 4 hours from start time with 6 minute step size
 //
 
-        var llh = Real1D()
+        var llh: [Double] = [0.0, 0.0, 0.0]
 
         for minutes in stride(from: 0.0, to: 240.0, by: 6) {
             let dayΔ = minutes / 1440.0
@@ -61,17 +61,17 @@ public struct Sgp4PropApp {
             let propError = sgp4PropDs50UtcLLH(satKey, startTime+dayΔ, &llh)
 
             guard propError == 0 else {
-                print("## \(GetLastErrMsg()) (after Sgp4PropDs50UTC)")
+                print("## \(getLastErrMsg()) (after Sgp4PropDs50UTC)")
                 fatalError("sgp4PropDs50UTC")
             }
 
             print(String(format: "Δt = %6.2f mins: %+9.2f°, %+9.2f°, %+9.2f Km",
-                         minutes, llh.x, llh.y, llh.z))
+                         minutes, llh[0], llh[1], llh[2]))
         }
 
-        let code = OpenLogFile(fileName: "/Users/gavin/Development/Sgp4Prop/Sgp4/TestMessageFile")
-        LogMessage(message: "Help!  There are marmots in the capsule .. \(code)")
-        CloseLogFile()
+        let code = openLogFile("/Users/gavin/Development/Sgp4Prop/Sgp4/TestMessageFile")
+        logMessage("Help!  There are marmots in the capsule .. \(code)")
+        closeLogFile()
 
         print("Sgp4PropApp done ..")
 

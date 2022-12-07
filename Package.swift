@@ -9,14 +9,12 @@ let package = Package(
         .macOS(.v11)
     ],
     dependencies: [
-    	.package(path: "../Sgp4PropLib"),
+        .package(url: "https://github.com/gavineadie/Sgp4PropLib.git", from: "0.0.1"),
     ],
     targets: [
         .executableTarget(
-            name: "Sgp4PropApp",
-            dependencies: [.product(name: "Sgp4PropLib", package: "Sgp4PropLib")]),
+            name: "Sgp4PropApp", dependencies: ["Sgp4PropLib"]),
         .testTarget(
-            name: "Sgp4PropAppTests",
-            dependencies: ["Sgp4PropApp", .product(name: "Sgp4PropLib", package: "Sgp4PropLib")]),
+            name: "Sgp4PropAppTests", dependencies: ["Sgp4PropApp", "Sgp4PropLib"]),
     ]
 )
