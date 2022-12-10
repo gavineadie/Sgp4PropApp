@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Sgp4PropApp",
     platforms: [
-        .macOS(.v11)
+        .macOS(.v11)                    // minimum macOS version v11 (Big Sur)
     ],
     dependencies: [
         .package(url: "https://github.com/gavineadie/Sgp4PropLib.git", from: "0.0.1"),
