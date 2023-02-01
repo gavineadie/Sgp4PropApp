@@ -5,7 +5,7 @@
 //  Created by Gavin Eadie on 11/11/22.
 //
 
-import swift
+import Sgp4PropLib
 
 @main
 public struct Sgp4PropApp {
@@ -22,9 +22,7 @@ public struct Sgp4PropApp {
         let satKey = tleAddSatFrLines("1 25544U 98067A   22321.90676521  .00009613  00000+0  17572-3 0  9999",
                                       "2 25544  51.6438 295.0836 0006994  86.3588   5.1970 15.50066990369021")  // ISS 2022-11-17
 
-        if 0 == sgp4InitSat(satKey) {
-            print("## \(getLastErrMsg()) (after sgp4InitSat) <<<-- MISTAKE")   // shouldn't happen ..
-        } else {
+        guard 0 == sgp4InitSat(satKey) else {
             fatalError("## \(getLastErrMsg()) (after sgp4InitSat)")
         }
 
@@ -33,7 +31,6 @@ public struct Sgp4PropApp {
 //
 
         let startTime = dtgToUTC("22321.90676521")
-        print("startTime = \(startTime)")
 
         var llh: [Double] = [0.0, 0.0, 0.0]             // prepare an array to catch 'llh'
 
