@@ -9,7 +9,7 @@ let package = Package(
         .macOS(.v11)                    // minimum macOS version v11 (Big Sur)
     ],
     dependencies: [
-        .package(url: "https://github.com/gavineadie/Sgp4PropLib.git", branch: "Zach-7"),
+        .package(url: "https://github.com/gavineadie/Sgp4PropLib.git", branch: "Main"),
     ],
     targets: [
         .executableTarget(
