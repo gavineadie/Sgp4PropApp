@@ -12,6 +12,7 @@ public struct Sgp4PropApp {
 
     public static func main() {
 
+        print("## Sgp4PropApp starts ..")
 // ------------------------------------------------------------------------
         loadAllDlls()
         verifyDLLs()        // and verify by printing their Info strings
@@ -56,25 +57,9 @@ public struct Sgp4PropApp {
             closeLogFile()                              // the log file is closed when app exits
         }
 
-        let code = openLogFile("/Users/gavin/Development/Sgp4Prop/Sgp4/TestMessageFile")
+        let code = openLogFile("./Sgp4.log")
         logMessage("Help!  There are marmots in the capsule .. \(code)")
 
-        print("Sgp4PropApp done ..")
+        print("## Sgp4PropApp done ..")
     }
-}
-
-func verifyDLLs() {
-
-    print(dllMainGetInfo())
-    print(envGetInfo())
-    print(timeFuncGetInfo())
-    print(astroFuncGetInfo())
-    print(tleGetInfo())
-    print(sgp4GetInfo())
-
-//    var getNamesString = Array(repeating: Int8(0), count: Int(512))
-//    GetInitDllNames(&getNamesString)
-//
-//    print(getNamesString)
-
 }

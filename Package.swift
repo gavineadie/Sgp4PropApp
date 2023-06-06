@@ -14,6 +14,10 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "Sgp4PropApp", dependencies: ["Sgp4PropLib"]),
+            name: "Sgp4PropApp",
+            dependencies: ["Sgp4PropLib"],
+            swiftSettings: [
+                .unsafeFlags(["-parse-as-library"])
+            ]),
     ]
 )
