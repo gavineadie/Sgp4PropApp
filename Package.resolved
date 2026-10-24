@@ -1,14 +1,15 @@
 {
+  "originHash" : "3a7bced820275e2e7eafa4789e3f45d32c6933472305c1347f5548f7ba18724b",
   "pins" : [
     {
       "identity" : "sgp4proplib",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gavineadie/Sgp4PropLib.git",
       "state" : {
-        "revision" : "ecd8a47ff4010912271bdac2298874c2d1d4e4c1",
-        "version" : "9.5.0"
+        "revision" : "e8e464f828d52c768542f132490c3ce5fac81fe2",
+        "version" : "9.9.0"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
